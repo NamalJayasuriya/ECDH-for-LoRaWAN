@@ -32,6 +32,52 @@ extern "C" {
 
 }  // extern "C"
 
+
+//  //-----elliptic curve 160r1 ---------------
+//  const struct uECC_Curve_t * curve = uECC_secp160r1();
+//
+//  char private1[21];
+//  char private2[21];
+//
+//  char public1[40];
+//  char public2[40];
+//
+//  char secret1[20];
+//
+//  char hash[21] = "asdfghjklmnbvcxzasdfg";
+//  char sig[40] = "asdfghjklmnbvcxzasdfgasdfghjklmnbvcxzas";//{0};
+//-----------------------------------------------
+
+//    //-----elliptic curve 192r1 ---------------
+//  const struct uECC_Curve_t * curve = uECC_secp192r1();
+//
+//  char private1[24];
+//  char private2[24];
+//
+//  char public1[48];
+//  char public2[48];
+//
+//  char secret1[24];
+//
+//  char hash[24] = "asdfghjklmnbvcxzasdfg";
+//  char sig[48] = "asdfghjklmnbvcxzasdfgasdfghjklmnbvcxzas";//{0};
+//-----------------------------------------------
+
+//  //-----elliptic curve 224r1 ---------------
+//  const struct uECC_Curve_t * curve = uECC_secp224r1();
+//
+//  char private1[28];
+//  char private2[28];
+//
+//  char public1[56];
+//  char public2[56];
+//
+//  char secret1[28];
+//
+//  char hash[28] = "asdfghjklmnbvcxzasdfg";
+//  char sig[56] = "asdfghjklmnbvcxzasdfgasdfghjklmnbvcxzas";//{0};
+//-----------------------------------------------
+
 //-----elliptic curve 256k1/ 256r1 ---------------
 const struct uECC_Curve_t * curve = uECC_secp256k1();
 //const struct uECC_Curve_t * curve = uECC_secp256r1();
@@ -46,7 +92,7 @@ char secret1[32];
 
 char hash[32] = "asdfghjklmnbvcxzasdfg";
 char sig[64] = "asdfghjklmnbvcxzasdfgasdfghjklmnbvcxzas";//{0};
-
+//-----------------------------------------------
 
 void ecdh_code_space() {
 
@@ -149,6 +195,8 @@ void setup() {
 
 void loop() {
 
+  //uncomment the variable declaration only for the relavant key size (at the top of this code)
+
   //uncomment to test code space and global data mem allocation
   ecdh_code_space();
   ecdsa_code_space();
@@ -157,7 +205,7 @@ void loop() {
   //ecdh_ram();
   //ecdsa_ram();
 
-  //uncomment to test time consumptions
+  //uncomment to test time consumptions and the execution results
   //ecdh_time();
   //ecdsa_time();
 

@@ -40,8 +40,8 @@
 extern "C" {
 
 static int RNG(uint8_t *dest, unsigned size) {
-  // Use the least-significant bits from the ADC for an unconnected pin (or connected to a source of 
-  // random noise). This can take a long time to generate random data if the result of analogRead(0) 
+  // Use the least-significant bits from the ADC for an unconnected pin (or connected to a source of
+  // random noise). This can take a long time to generate random data if the result of analogRead(0)
   // doesn't change very frequently.
   while (size) {
     uint8_t val = 0;
@@ -51,7 +51,7 @@ static int RNG(uint8_t *dest, unsigned size) {
       while (analogRead(0) == init) {
         ++count;
       }
-      
+
       if (count == 0) {
          val = (val << 1) | (init & 0x01);
       } else {
@@ -71,9 +71,9 @@ static int RNG(uint8_t *dest, unsigned size) {
 
   //-----elliptic curve 256k1 ---------------
   const struct uECC_Curve_t * curve = uECC_secp256k1();
-  
+
   char private1[32];
-  char private2[32];
+  //char private2[32];
 
   char public1[64]; //my pub
   char public2[64];  //net pub
@@ -156,7 +156,7 @@ void onEvent (ev_t ev) {
             //Serial.println(F("EV_JOINING"));
             //Serial.print(F("loop mem - "));Serial.println(freeMemory());
             //Serial.println(millis());
-            
+
             break;
         case EV_JOINED:
             //Serial.println(F("EV_JOINED"));
@@ -185,7 +185,7 @@ void onEvent (ev_t ev) {
 
               //Serial.println(millis());
               //Serial.print(F("loop mem - "));Serial.println(freeMemory());
-              
+
             }
             // Disable link check validation (automatically enabled
             // during join, but because slow data rates change max TX
@@ -282,7 +282,7 @@ void setup() {
     os_init();
     // Reset the MAC state. Session and pending data transfers will be discarded.
     LMIC_reset();
-    
+
     // Start job (sending automatically starts OTAA too)
     do_send(&sendjob);
 }
@@ -290,29 +290,29 @@ void setup() {
 void loop() {
     os_runloop_once();
 
-     uECC_make_key(public1, private1, curve);
+    uECC_make_key(public1, private1, curve);
 
     uECC_make_key(public2, private2, curve);
-  
+
     int r = uECC_shared_secret(public2, private1, secret1, curve);
-  
+
     if (!r) {
       //Serial.print("shared_secret() failed (1)\n");
       return;
     }
-  
+
     r = uECC_shared_secret(public1, private2, secret2, curve);
     if (!r) {
       //Serial.print("shared_secret() failed (2)\n");
       return;
     }
-      
+
     if (memcmp(secret1, secret2, 20) != 0) {
       //Serial.print("Shared secrets are not identical!\n");
     } else {
       //Serial.print("Shared secrets are identical\n");
     }
-  
+
     //---------------------------------------------------
     if (!uECC_sign(private1, hash, sizeof(hash), sig, curve)) {
         //Serial.println("uECC_sign() failed\n");
